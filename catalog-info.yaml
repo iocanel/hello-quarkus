@@ -1,0 +1,16 @@
+--- 
+apiVersion: backstage.io/v1beta1
+kind: Component
+spec:
+  type: application
+  lifecycle: production
+  owner: user:guest
+metadata:
+  name: hello-quarkus
+  labels:
+    app.kubernetes.io/name: hello-quarkus
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.quarkus.io/version: 3.13.1
+  tags:
+  - java
+  - quarkus
