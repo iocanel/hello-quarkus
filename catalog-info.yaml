@@ -1,16 +1,31 @@
 --- 
 apiVersion: backstage.io/v1beta1
+kind: API
+spec:
+  type: openapi
+  lifecycle: production
+  owner: user:guest
+  definition:
+    $text: ./openapi.yaml
+metadata:
+  name: hello-quarkus-api
+--- 
+apiVersion: backstage.io/v1beta1
 kind: Component
 spec:
   type: application
   lifecycle: production
   owner: user:guest
+  providesApis:
+  - hello-quarkus-api
 metadata:
   name: hello-quarkus
   labels:
     app.kubernetes.io/name: hello-quarkus
     app.kubernetes.io/version: 1.0.0-SNAPSHOT
     app.quarkus.io/version: 3.13.1
+  annotations:
+    backstage.io/source-location: url:https://github.com/iocanel/hello-quarkus
   tags:
   - java
   - quarkus
