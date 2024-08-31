@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app.quarkus.io/quarkus-version: 3.13.1
+    app.quarkus.io/commit-id: c4d2664c425b9ecd8deb2bfce4b0f77366a9aea7
+    app.quarkus.io/vcs-uri: https://github.com/iocanel/hello-quarkus.git
+    app.quarkus.io/build-timestamp: 2024-08-30 - 12:52:01 +0000
+  labels:
+    app.kubernetes.io/name: hello-quarkus
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.kubernetes.io/managed-by: quarkus
+  name: hello-quarkus
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: {{ .Values.app.ports.http }}
+  selector:
+    app.kubernetes.io/name: hello-quarkus
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+  type: ClusterIP
