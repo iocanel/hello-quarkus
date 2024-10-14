@@ -34,6 +34,11 @@
       <version>999-SNAPSHOT</version>
     </dependency>
     <dependency>
+      <groupId>io.quarkiverse.jgit</groupId>
+      <artifactId>quarkus-jgit</artifactId>
+      <version>999-SNAPSHOT</version>
+    </dependency>
+    <dependency>
       <groupId>io.quarkiverse.argocd</groupId>
       <artifactId>quarkus-argocd</artifactId>
       <version>999-SNAPSHOT</version>
