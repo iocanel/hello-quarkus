@@ -1,18 +1,30 @@
- 
-apiVersion: backstage.io/v1alpha1
-kind: Component
-spec:
-  type: application
-  lifecycle: production
-  owner: user:guest
-metadata:
-  name: ${{ values.artifactId }}
-  labels:
-    app.kubernetes.io/name: ${{ values.artifactId }}
-    app.kubernetes.io/version: ${{ values.version }}
-    app.quarkus.io/version: 3.15.0
-  annotations:
-    backstage.io/source-location: url:https://github.com/iocanel/${{ values.artifactId }}
-  tags:
-  - java
-  - quarkus
+
+- apiVersion: backstage.io/v1alpha1
+  kind: API
+  spec:
+    type: openapi
+    lifecycle: production
+    owner: user:guest
+    definition:
+      $text: ./openapi.yaml
+  metadata:
+    name: ${{ values.artifactId }}-api
+- apiVersion: backstage.io/v1alpha1
+  kind: Component
+  spec:
+    type: application
+    lifecycle: production
+    owner: user:guest
+    providesApis:
+    - ${{ values.artifactId }}-api
+  metadata:
+    name: ${{ values.artifactId }}
+    labels:
+      app.kubernetes.io/name: ${{ values.artifactId }}
+      app.kubernetes.io/version: ${{ values.version }}
+      app.quarkus.io/version: 3.14.3
+    annotations:
+      backstage.io/source-location: url:https://github.com/iocanel/${{ values.artifactId }}
+    tags:
+    - java
+    - quarkus
