@@ -8,7 +8,7 @@ spec:
   definition:
     $text: ./openapi.yaml
 metadata:
-  name: hello-quarkus-api
+  name: ${{ values.artifactId }}-api
 --- 
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -17,15 +17,15 @@ spec:
   lifecycle: production
   owner: user:guest
   providesApis:
-  - hello-quarkus-api
+  - ${{ values.artifactId }}-api
 metadata:
-  name: hello-quarkus
+  name: ${{ values.artifactId }}
   labels:
-    app.kubernetes.io/name: hello-quarkus
-    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.kubernetes.io/name: ${{ values.artifactId }}
+    app.kubernetes.io/version: ${{ values.version }}
     app.quarkus.io/version: 3.13.1
   annotations:
-    backstage.io/source-location: url:https://github.com/iocanel/hello-quarkus
+    backstage.io/source-location: url:https://github.com/iocanel/${{ values.artifactId }}
   tags:
   - java
   - quarkus

@@ -1,0 +1,112 @@
+ 
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: hello-quarkus
+  namespace: default
+  tags:
+  - java
+  - quarkus
+spec:
+  type: service
+  parameters:
+  - title: Component configuration
+    required:
+    - componentId
+    properties:
+      componentId:
+        title: Component ID
+        type: string
+        description: The ID of the software component. This will be used as the name
+          of the git repository and component.
+        default: my-app
+  - title: Project details
+    required:
+    - groupId
+    - artifactId
+    - version
+    properties:
+      groupId:
+        title: Group ID
+        type: string
+        description: The group ID of the project
+        default: org.acme
+      artifactId:
+        title: Artifact ID
+        type: string
+        description: The artifact ID of the project
+        default: code-with-quarkus
+      version:
+        title: Version
+        type: string
+        description: The version of the project
+        default: 1.0-SNAPSHOT
+      name:
+        title: Name
+        type: string
+        description: The name of the project
+      description:
+        title: Description
+        type: string
+        description: The description of the project
+      package:
+        title: Package
+        type: string
+        description: The base package of the project
+        default: org.acme
+  - title: Git repository configuration
+    required:
+    - repo
+    properties:
+      repo:
+        title: Repository Configuration
+        type: object
+        properties:
+          host:
+            title: Host
+            type: string
+            description: The host of the git repository
+            default: github.com
+          org:
+            title: Organization
+            type: string
+            description: The organization of the git repository
+            default: my-org
+          visibility:
+            title: Visibility
+            type: string
+            description: The visibility of the git repository
+            default: public
+  steps:
+  - id: render
+    name: Fetch Application Files
+    action: fetch:template
+    input:
+      values:
+        componentId: "${{ parameters.componentId }}"
+        package: "${{ parameters.package }}"
+        groupId: "${{ parameters.groupId }}"
+        artifactId: "${{ parameters.artifactId }}"
+        version: "${{ parameters.version }}"
+      replace: true
+      url: skeleton/
+  - id: publish
+    name: Publish to Github
+    action: publish:github
+    input:
+      allowedHosts: "['github.com']"
+      repoUrl: "${{ parameters.repo.host }}?owner=${{ parameters.repo.org }}&repo=${{parameters.componentId}}"
+      protectDefaultBranch: false
+      defaultBranch: main
+      description: "This is ${{ parameters.description }}"
+      repoVisibility: "${{ parameters.repo.visibility }}"
+  - id: register
+    name: Register Component
+    action: catalog:register
+    input:
+      catalogInfoUrl: "https://${{ parameters.repo.host }}/${{ parameters.repo.org\
+        \ }}/${{ parameters.componentId }}/blob/main/catalog-info.yaml"
+  output:
+    links:
+    - title: Open the catalog info
+      entityRef: "${{ steps.register.output.entityRef }}"
