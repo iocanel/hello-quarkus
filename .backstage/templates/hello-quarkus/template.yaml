@@ -62,21 +62,21 @@ spec:
         title: Repository Configuration
         type: object
         properties:
-          repo:
-            title: Repository
-            type: string
-            description: The name of the git repository
-            default: "${{ values.componentId }}"
-          host:
-            title: Host
-            type: string
-            description: The host of the git repository
-            default: github.com
           org:
             title: Organization
             type: string
             description: The organization of the git repository
             default: my-org
+          host:
+            title: Host
+            type: string
+            description: The host of the git repository
+            default: github.com
+          repo:
+            title: Repository
+            type: string
+            description: The name of the git repository
+            default: "${{ parameters.componentId }}"
           visibility:
             title: Visibility
             type: string
