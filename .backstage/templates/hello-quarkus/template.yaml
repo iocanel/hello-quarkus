@@ -62,6 +62,11 @@ spec:
         title: Repository Configuration
         type: object
         properties:
+          repo:
+            title: Repository
+            type: string
+            description: The name of the git repository
+            default: "${{ values.componentId }}"
           host:
             title: Host
             type: string
